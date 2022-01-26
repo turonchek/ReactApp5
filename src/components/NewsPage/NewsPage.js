@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import { NewsItem } from '../NewsItem/NewsItem';
+import { NewsForm } from '../NewsForm/NewsForm';
 import PropTypes from 'prop-types';
 
 export class NewsPage extends PureComponent {
@@ -11,7 +12,20 @@ export class NewsPage extends PureComponent {
             status: 'initial',
             error:null,
             data:null,
+            isItem:false,
+            isForm:false,
         };
+    }
+
+    toggleItem =() => {
+        this.setState({
+            isItem: !this.state.isItem,
+        })
+    }
+    toggleForm =() => {
+        this.setState({
+            isForm: !this.state.isForm,
+        })
     }
 
     fetchData = (id) => {
@@ -40,17 +54,21 @@ export class NewsPage extends PureComponent {
                 });
             })
     }
+    
 
     render(){
 
-        const {status, error, data} = this.state;
+        const {status, error, data,isItem, isForm} = this.state;
 
         return (
             <div className="">
-                <NewsItem 
-                    status={status}
-                    error={error}
-                    data={data}/>
+                <button onClick={this.toggleItem}>{isItem ? 'Close item' : 'Show item'}</button>
+                <button onClick={this.toggleForm}>{isForm ? 'Close form ' : 'Show form'}</button>
+                {isItem && <NewsItem 
+                            status={status}
+                            error={error}
+                            data={data}/>}
+                {isForm && <NewsForm/>}
             </div>
         );
     }
